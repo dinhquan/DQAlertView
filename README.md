@@ -115,4 +115,8 @@ DQAlertView can be customized with the following properties:
 
 ```
 
+## Contacts
+
+If you have any questions, feature suggestions or bug reports, please send me an email to dinhquan191@gmail.com.
+
 
