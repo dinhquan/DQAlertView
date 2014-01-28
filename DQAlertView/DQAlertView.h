@@ -109,9 +109,8 @@ typedef void (^DQAlertViewBlock)(void);
 
 @property (nonatomic, assign) BOOL buttonClickedHighlight; //Default is YES
 
-
 // Delegate
-@property (nonatomic, weak) id<DQAlertViewDelegate> delegate;
+@property (nonatomic, strong) id<DQAlertViewDelegate> delegate;
 
 #pragma mark - Public Methods
 
