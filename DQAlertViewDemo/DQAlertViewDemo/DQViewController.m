@@ -9,7 +9,7 @@
 #import "DQViewController.h"
 #import "DQAlertView.h"
 
-@interface DQViewController ()
+@interface DQViewController () <DQAlertViewDelegate>
 
 @end
 
@@ -39,7 +39,7 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
 {
     DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:shortSampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
 
-
+    alertView.delegate = self;
     [alertView show];
 }
 
@@ -100,6 +100,7 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
     DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:sampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
     
     alertView.backgroundColor = [UIColor orangeColor];
+    alertView.seperatorColor = [UIColor blackColor];
     
     [alertView showInView:self.view];
 }
@@ -132,7 +133,7 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
     
     alertView.seperatorColor = [UIColor blueColor];
     alertView.titleLabel.textColor = [UIColor redColor];
-    alertView.messageLabel.textColor = [UIColor greenColor];
+    alertView.messageLabel.textColor = [UIColor brownColor];
     [alertView.cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [alertView.otherButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
@@ -198,7 +199,7 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
         NSLog(@"OK Clicked");
     };
     
-//    // You also can use:
+//    // You can also use:
 //    [alertView actionWithBlocksCancelButtonHandler:^{
 //        NSLog(@"Cancel Clicked");
 //
@@ -206,5 +207,13 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
 //        NSLog(@"OK Clicked");
 //
 //    }];
+}
+
+-(void)DQAlertViewCancelButtonClicked {
+    NSLog(@"Cancel Clicked");
+}
+
+-(void) DQAlertViewOtherButtonClicked {
+    NSLog(@"OK Clicked");
 }
 @end

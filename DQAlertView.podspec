@@ -10,7 +10,7 @@ You can set the background color, background image, frame, text color, text font
   s.homepage     = ""
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { 'Dinh Quan' => 'dinhquan191@gmail.com' }
-  s.source       = { :git => "https://github.com/matej/MBProgressHUD.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/dinhquan/DQAlertView.git", :tag => s.version.to_s }
   s.platform     = :ios
   s.source_files = '*.{h,m}'
   s.requires_arc = true

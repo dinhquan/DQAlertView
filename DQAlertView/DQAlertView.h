@@ -127,7 +127,7 @@ typedef void (^DQAlertViewBlock)(void);
 
 
 // Show in specified view
-// You the custom frame has not been set, the alert will be shown at the center of the view
+// If the custom frame has not been set, the alert will be shown at the center of the view
 - (void) showInView: (UIView *) view;
 
 
