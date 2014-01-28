@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "DQAlertView"
-  s.version      = "0.1"
+  s.version      = "0.0.1"
   s.summary      = "The best iOS customizable Alert View."
 
   s.description  = <<-DESC
