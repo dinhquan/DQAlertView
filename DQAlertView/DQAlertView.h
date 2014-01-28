@@ -79,7 +79,7 @@ typedef void (^DQAlertViewBlock)(void);
 
 @property (nonatomic, assign) CGFloat titleTopPadding; //Default is 5
 @property (nonatomic, assign) CGFloat titleBottomPadding; // Default is 0
-@property (nonatomic, assign) CGFloat messageBottomPadding; // Default is 0
+@property (nonatomic, assign) CGFloat messageBottomPadding; // Default is 10
 @property (nonatomic, assign) CGFloat messageLeftRightPadding; // Default is 10
 
 

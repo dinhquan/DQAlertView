@@ -70,7 +70,7 @@
         self.titleTopPadding = 5;
         self.titleHeight  = 30;
         self.titleBottomPadding = 0;
-        self.messageBottomPadding = 0;
+        self.messageBottomPadding = 10;
         self.messageLeftRightPadding = 10;
         
         

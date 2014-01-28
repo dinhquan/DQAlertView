@@ -15,8 +15,9 @@
 
 NSString * sampleTitle = @"Title";
 NSString * shortSampleMessage = @"Hello World!";
-NSString * sampleMessage = @"Since the alien army vastly outnumbers the team, players must use the post-apocalyptic world";
-NSString * longSampleMessage = @"Since the alien army vastly outnumbers the team, players must use the post-apocalyptic world to their advantage, such as seeking cover behind dumpsters, pillars, cars, rubble, and other objects.";
+NSString * sampleMessage = @"The quick brown fox jumps over the lazy dog.";
+NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. Now it looks as though they're here to stay. Oh, I believe in yesterday. Suddenly I'm not half the man I used to be. There's a shadow hanging over me. Oh, yesterday came suddenly.";
+
 
 @implementation DQViewController
 
@@ -37,13 +38,16 @@ NSString * longSampleMessage = @"Since the alien army vastly outnumbers the team
 - (IBAction)shortMessage:(id)sender
 {
     DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:shortSampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
-    
+
+
     [alertView show];
 }
 
 - (IBAction)longMessage:(id)sender
 {
     DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:longSampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
+    
+    alertView.messageBottomPadding = -20;
     
     [alertView showInView:self.view];
 }
@@ -67,6 +71,8 @@ NSString * longSampleMessage = @"Since the alien army vastly outnumbers the team
     DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:sampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
     
     alertView.cancelButtonPositionRight = YES;
+    alertView.borderColor = [UIColor blackColor];
+    alertView.borderWidth = 2;
     
     [alertView showInView:self.view];
 }
@@ -106,6 +112,7 @@ NSString * longSampleMessage = @"Since the alien army vastly outnumbers the team
     alertView.backgroundImage = image;
     alertView.hideSeperator = YES;
     alertView.customFrame = CGRectMake((self.view.frame.size.width - image.size.width )/2, (self.view.frame.size.height - image.size.height)/2, image.size.width, image.size.height);
+    
     [alertView showInView:self.view];
 }
 
@@ -190,5 +197,14 @@ NSString * longSampleMessage = @"Since the alien army vastly outnumbers the team
     alertView.otherButtonAction = ^{
         NSLog(@"OK Clicked");
     };
+    
+//    // You also can use:
+//    [alertView actionWithBlocksCancelButtonHandler:^{
+//        NSLog(@"Cancel Clicked");
+//
+//    } otherButtonHandler:^{
+//        NSLog(@"OK Clicked");
+//
+//    }];
 }
 @end
