@@ -300,7 +300,10 @@
         //Calculate the expected size based on the font and linebreak mode of your label
         // FLT_MAX here simply means no constraint in height
         CGSize maximumLabelSize = CGSizeMake(self.width, FLT_MAX);
-        CGSize expectedLabelSize = [self.message sizeWithFont:messageFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+        NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:self.message attributes:@{NSFontAttributeName: messageFont}];
+        CGRect rect = [attributedText boundingRectWithSize:maximumLabelSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+        // Above method possibly returns fractional size values, so values are rounded to nearest higher integer before use
+        CGSize expectedLabelSize = CGSizeMake(ceilf(rect.size.width), ceilf(rect.size.height));
         CGFloat messageHeight = expectedLabelSize.height;
         
         CGFloat newHeight = messageHeight + self.titleHeight + self.buttonHeight + self.titleTopPadding + self.titleBottomPadding + self.messageBottomPadding;
