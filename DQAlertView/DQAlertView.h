@@ -90,6 +90,11 @@ typedef void (^DQAlertViewBlock)(void);
 // inherits from UIView @property (nonatomic, strong) UIColor * backgroundColor; // Default is white color with alpha 0.8
 @property (nonatomic, strong) UIImage * backgroundImage; // Default is nil
 
+// Customize dim view opacity
+@property (nonatomic, assign) CGFloat dimViewOpacity;
+
+// Customize with subview
+@property (nonatomic, strong) UIView *customView;
 
 // Customize the seperator
 @property (nonatomic, assign) BOOL hideSeperator; // Default is NO

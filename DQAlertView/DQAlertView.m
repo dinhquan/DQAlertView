@@ -89,7 +89,14 @@
     if ( ! hasModifiedFrame) {
         self.frame = CGRectMake((view.frame.size.width - self.frame.size.width )/2, (view.frame.size.height - self.frame.size.height) /2, self.frame.size.width, self.frame.size.height);
     }
-
+    
+    UIView *overlayView = [[UIView alloc] initWithFrame:view.frame];
+    [overlayView setTag:1001];
+    [overlayView setBackgroundColor:[UIColor colorWithWhite:0
+                                                      alpha:(self.dimViewOpacity > 0 ? self.dimViewOpacity : 0.3)]];
+    [overlayView setUserInteractionEnabled:YES];
+    [view addSubview:overlayView];
+    
     [self addThisViewToView:view];
 }
 
@@ -278,6 +285,7 @@
         [self removeFromSuperview];
     }
 
+    [[[self superview] viewWithTag:1001] removeFromSuperview];
 }
 
 - (void) setCustomFrame:(CGRect)frame
@@ -305,15 +313,18 @@
         
         CGFloat newHeight = messageHeight + self.titleHeight + self.buttonHeight + self.titleTopPadding + self.titleBottomPadding + self.messageBottomPadding;
         self.height = newHeight;
+    
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.height);
         
     }
     
     BOOL hasButton = (self.cancelButtonTitle || self.otherButtonTitle);
+    CGFloat topHeight = 0;
     
     if ( ! self.title ) {
         titleLabelFrame = CGRectZero;
     } else {
+        topHeight += self.titleTopPadding + self.titleHeight;
         titleLabelFrame = CGRectMake(self.messageLeftRightPadding,
                                      self.titleTopPadding,
                                      self.width - self.messageLeftRightPadding * 2,
@@ -331,6 +342,25 @@
                                        titleLabelFrame.origin.y +  titleLabelFrame.size.height + self.titleBottomPadding,
                                        self.width - self.messageLeftRightPadding * 2,
                                        self.height - titleLabelFrame.size.height - self.titleTopPadding - self.titleBottomPadding);
+    }
+    
+    if (topHeight == 0) {
+        topHeight += CGRectGetMinY(messageLabelFrame) + CGRectGetHeight(messageLabelFrame);
+    } else {
+        topHeight = CGRectGetMinY(messageLabelFrame) + CGRectGetHeight(messageLabelFrame);
+    }
+    
+    if (self.customView) {
+        CGFloat customViewWidth = CGRectGetWidth(self.customView.frame);
+        CGFloat customViewHeight = CGRectGetHeight(self.customView.frame);
+        if (customViewWidth > CGRectGetWidth(self.frame)){
+            customViewHeight = (CGRectGetWidth(self.frame) / customViewWidth) * customViewHeight;
+            customViewWidth = CGRectGetWidth(self.frame);
+        }
+        
+        self.height += customViewHeight;
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.height);
+        self.customView.frame = CGRectMake(0, topHeight, customViewWidth, customViewHeight);
     }
     
     if ( self.hideSeperator || ! hasButton ) {
@@ -488,6 +518,9 @@
     [self addSubview:self.otherButton];
     [self addSubview:self.horizontalSeperator];
     [self addSubview:self.verticalSeperator];
+    if (self.customView) {
+        [self addSubview:self.customView];
+    }
 }
 
 #pragma mark - Actions

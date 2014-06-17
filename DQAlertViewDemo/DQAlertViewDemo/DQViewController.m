@@ -209,6 +209,18 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
 //    }];
 }
 
+- (IBAction)showAlertWithCustomView:(id)sender {
+    DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:shortSampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
+    
+    // custom view
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 421, 163)];
+    [imageView setImage:[UIImage imageNamed:@"fathersday12-hp.jpg"]];
+    [alertView setCustomView:imageView];
+    
+    alertView.delegate = self;
+    [alertView show];
+}
+
 -(void)DQAlertViewCancelButtonClicked {
     NSLog(@"Cancel Clicked");
 }
