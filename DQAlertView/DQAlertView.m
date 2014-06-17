@@ -94,7 +94,7 @@
     [overlayView setTag:1001];
     [overlayView setBackgroundColor:[UIColor colorWithWhite:0
                                                       alpha:(self.dimViewOpacity > 0 ? self.dimViewOpacity : 0.3)]];
-    [overlayView setUserInteractionEnabled:NO];
+    [overlayView setUserInteractionEnabled:YES];
     [view addSubview:overlayView];
     
     [self addThisViewToView:view];
