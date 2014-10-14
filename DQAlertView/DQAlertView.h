@@ -109,6 +109,13 @@ typedef void (^DQAlertViewBlock)(void);
 
 @property (nonatomic, assign) BOOL buttonClickedHighlight; //Default is YES
 
+@property (nonatomic, assign) BOOL shouldDismissOnActionButtonClicked; //Default is NO
+@property (nonatomic, assign) BOOL shouldDismissOnOutsideTapped; //Default is NO
+@property (nonatomic, assign) BOOL shouldDimBackgroundWhenShowInWindow; //Default is YES
+@property (nonatomic, assign) BOOL shouldDimBackgroundWhenShowInView; //Default is NO
+
+@property (nonatomic, assign) CGFloat dimAlpha; //Default is 0.4
+
 // Delegate
 @property (nonatomic, strong) id<DQAlertViewDelegate> delegate;
 

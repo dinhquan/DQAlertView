@@ -49,6 +49,8 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
     
     alertView.messageBottomPadding = -20;
     
+    alertView.shouldDimBackgroundWhenShowInView = YES;
+    alertView.shouldDismissOnOutsideTapped = YES;
     [alertView showInView:self.view];
 }
 

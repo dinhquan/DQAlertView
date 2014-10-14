@@ -7,8 +7,10 @@
 
 #import "DQAlertView.h"
 
-#define DEFAULT_ALERT_WIDTH 260
-#define DEFAULT_ALERT_HEIGHT 120
+#define DEFAULT_ALERT_WIDTH 270
+#define DEFAULT_ALERT_HEIGHT 123
+
+#define BLACK_OPAQUE_VIEW_TAG 908
 
 @interface DQAlertView ()
 {
@@ -73,6 +75,8 @@
         self.messageBottomPadding = 10;
         self.messageLeftRightPadding = 10;
         
+        self.shouldDimBackgroundWhenShowInWindow = YES;
+        self.dimAlpha = 0.2;
         
         [self setupItems];
 
@@ -89,6 +93,17 @@
     if ( ! hasModifiedFrame) {
         self.frame = CGRectMake((view.frame.size.width - self.frame.size.width )/2, (view.frame.size.height - self.frame.size.height) /2, self.frame.size.width, self.frame.size.height);
     }
+    UIView *window = [[[UIApplication sharedApplication] delegate] window];
+
+    if (self.shouldDimBackgroundWhenShowInView && view != window) {
+        UIView *window = [[[UIApplication sharedApplication] delegate] window];
+        UIView *blackOpaqueView = [[UIView alloc] initWithFrame:window.bounds];
+        blackOpaqueView.backgroundColor = [UIColor colorWithWhite:0 alpha:self.dimAlpha];
+        blackOpaqueView.tag = BLACK_OPAQUE_VIEW_TAG;
+        UITapGestureRecognizer *outsideTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(outsideTap:)];
+        [blackOpaqueView addGestureRecognizer:outsideTapGesture];
+        [view addSubview:blackOpaqueView];
+    }
 
     [self addThisViewToView:view];
 }
@@ -99,20 +114,33 @@
     [self calculateFrame];
     [self setupViews];
     
-    id appDelegate = [[UIApplication sharedApplication] delegate];
-    if ([appDelegate respondsToSelector:@selector(window)]) {
-        UIWindow * window = (UIWindow *) [appDelegate performSelector:@selector(window)];
-        
-        CGSize screenSize = [UIScreen mainScreen].bounds.size;
-        self.frame = CGRectMake((screenSize.width - self.frame.size.width )/2, (screenSize.height - self.frame.size.height) /2, self.frame.size.width, self.frame.size.height);
+    UIView *window = [[[UIApplication sharedApplication] delegate] window];
+    
+    if (self.shouldDimBackgroundWhenShowInWindow) {
+        UIView *blackOpaqueView = [[UIView alloc] initWithFrame:window.bounds];
+        blackOpaqueView.backgroundColor = [UIColor colorWithWhite:0 alpha:self.dimAlpha];
+        blackOpaqueView.tag = BLACK_OPAQUE_VIEW_TAG;
+        UITapGestureRecognizer *outsideTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(outsideTap:)];
+        [blackOpaqueView addGestureRecognizer:outsideTapGesture];
+        [window addSubview:blackOpaqueView];
+    }
+    
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    self.frame = CGRectMake((screenSize.width - self.frame.size.width )/2, (screenSize.height - self.frame.size.height) /2, self.frame.size.width, self.frame.size.height);
+    
+    [self showInView:window];
+}
 
-        [self showInView:window];
+- (void)outsideTap:(UITapGestureRecognizer *)recognizer
+{
+    if (self.shouldDismissOnOutsideTapped) {
+        [self dismiss];
     }
 }
 
 - (void) addThisViewToView: (UIView *) view
 {
-    NSTimeInterval timeAppear = ( self.appearTime > 0 ) ? self.appearTime : .3;
+    NSTimeInterval timeAppear = ( self.appearTime > 0 ) ? self.appearTime : .25;
 
     [view addSubview:self];
     
@@ -204,9 +232,8 @@
 // Hide and dismiss the alert
 - (void) dismiss
 {
-    
-    NSTimeInterval timeDisappear = ( self.disappearTime > 0 ) ? self.disappearTime : .3;
-    NSTimeInterval timeDelay = .2;
+    NSTimeInterval timeDisappear = ( self.disappearTime > 0 ) ? self.disappearTime : .2;
+    NSTimeInterval timeDelay = .02;
     
     if (self.appearAnimationType == DQAlertViewAnimationTypeDefault) {
         self.transform = CGAffineTransformIdentity;
@@ -277,6 +304,14 @@
     {
         [self removeFromSuperview];
     }
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.disappearTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        UIView *window = [[[UIApplication sharedApplication] delegate] window];
+        UIView *blackOpaqueView = [window viewWithTag:BLACK_OPAQUE_VIEW_TAG];
+        if (blackOpaqueView) {
+            [blackOpaqueView removeFromSuperview];
+        }
+    });
 
 }
 
@@ -299,9 +334,15 @@
         //Calculate label size
         //Calculate the expected size based on the font and linebreak mode of your label
         // FLT_MAX here simply means no constraint in height
-        CGSize maximumLabelSize = CGSizeMake(self.width, FLT_MAX);
-        CGSize expectedLabelSize = [self.message sizeWithFont:messageFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
-        CGFloat messageHeight = expectedLabelSize.height;
+        CGSize maximumLabelSize = CGSizeMake(self.width - self.messageLeftRightPadding * 2, FLT_MAX);
+//        CGSize expectedLabelSize = [self.message sizeWithFont:messageFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+        
+        CGRect textRect = [self.message boundingRectWithSize:maximumLabelSize
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                          attributes:@{NSFontAttributeName:messageFont}
+                                             context:nil];
+        
+        CGFloat messageHeight = textRect.size.height;
         
         CGFloat newHeight = messageHeight + self.titleHeight + self.buttonHeight + self.titleTopPadding + self.titleBottomPadding + self.messageBottomPadding;
         self.height = newHeight;
@@ -534,6 +575,10 @@
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             self.otherButton.backgroundColor = originColor;
         });
+    }
+    
+    if (self.shouldDismissOnActionButtonClicked) {
+        [self dismiss];
     }
     
     if (self.otherButtonAction) {
