@@ -12,13 +12,12 @@ With DQAlertView, you can easily make your desired Alert View in some lines of c
 
 ## Getting started
 
-### Using CocoaPods
+#### Using CocoaPods
 Just add the following line in to your pod file:
 ```
 pod 'DQAlertView', '~> 1.0.0'
 ```
-### Using CocoaPods
-Manually add DQALertView as a library:
+#### Manually
 Drag and drop the subfolder named ```DQAlertView``` in your project and you are done.
 
 ## Feature
@@ -36,7 +35,7 @@ With the DQAlertView, you can easily:
 
 ## Usage
 
-### Initilization
+#### Initilization
 
 Set the title to nil to make the alert be no title.
 Remove button by set its title to nil
@@ -49,7 +48,7 @@ DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:@"Title" message:@"
 DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:@"Title" message:@"Sample Message" cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
 ```
 
-### Show and dismiss
+#### Show and dismiss
 
 ```objective-c
 // Show in specified view
@@ -65,7 +64,7 @@ DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:@"Title" message:@"
 
 ```
 
-### Button touching event handler
+#### Button touching event handler
 
 ```objective-c
 
@@ -110,7 +109,7 @@ alertView.delegate = self;
 }
 
 ```
-### Customization
+#### Customization
 
 DQAlertView can be customized with the following properties:
 
