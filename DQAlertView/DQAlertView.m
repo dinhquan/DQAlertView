@@ -8,7 +8,7 @@
 #import "DQAlertView.h"
 
 #define DEFAULT_ALERT_WIDTH 270
-#define DEFAULT_ALERT_HEIGHT 123
+#define DEFAULT_ALERT_HEIGHT 122
 
 #define BLACK_OPAQUE_VIEW_TAG 908
 

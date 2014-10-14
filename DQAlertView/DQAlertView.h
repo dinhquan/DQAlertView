@@ -70,8 +70,6 @@ typedef void (^DQAlertViewBlock)(void);
 @property (nonatomic, strong) UILabel * titleLabel; // Default is in black color and system bold font 16
 @property (nonatomic, strong) UILabel * messageLabel; // Default is in gray color and system font 14
 
-@property (nonatomic, assign) BOOL cancelButtonPositionRight; // Default is NO
-
 
 // Set the height of title and button; and the padding of elements. The message label height is calculated based on its text and font.
 @property (nonatomic, assign) CGFloat buttonHeight; // Default is 44
@@ -87,7 +85,7 @@ typedef void (^DQAlertViewBlock)(void);
 @property (nonatomic, strong) UIColor * borderColor; // Default is no border
 @property (nonatomic, assign) CGFloat borderWidth; // Default is 0
 @property (nonatomic, assign) CGFloat cornerRadius; // Default is 4
-// inherits from UIView @property (nonatomic, strong) UIColor * backgroundColor; // Default is white color with alpha 0.8
+// inherits from UIView @property (nonatomic, strong) UIColor * backgroundColor; // Default is white color with alpha 1
 @property (nonatomic, strong) UIImage * backgroundImage; // Default is nil
 
 
@@ -103,27 +101,40 @@ typedef void (^DQAlertViewBlock)(void);
 @property (nonatomic, assign) NSTimeInterval disappearTime; // Default is 0.3
 
 
-// Handle the button touch
-@property (readwrite, copy) DQAlertViewBlock cancelButtonAction;
-@property (readwrite, copy) DQAlertViewBlock otherButtonAction;
+// Make the cancel button appear on the right by setting this to YES
+@property (nonatomic, assign) BOOL cancelButtonPositionRight; // Default is NO
 
+// Disable the button highlight by setting this property to NO
 @property (nonatomic, assign) BOOL buttonClickedHighlight; //Default is YES
 
+// By default the alert will not dismiss if clicked to other button, set this property to YES to change the behaviour
 @property (nonatomic, assign) BOOL shouldDismissOnActionButtonClicked; //Default is NO
+
+// If this property is YES, the alert will dismiss when you click on outside (only when dim background is enable)
 @property (nonatomic, assign) BOOL shouldDismissOnOutsideTapped; //Default is NO
+
+// When shown in window, the dim background is always enable
 @property (nonatomic, assign) BOOL shouldDimBackgroundWhenShowInWindow; //Default is YES
+
+// When shown in view, the dim background is always disable
 @property (nonatomic, assign) BOOL shouldDimBackgroundWhenShowInView; //Default is NO
 
-@property (nonatomic, assign) CGFloat dimAlpha; //Default is 0.4
+// The default color of dim background is black color with alpha 0.2
+@property (nonatomic, assign) CGFloat dimAlpha; //Default is 0.2
 
 // Delegate
 @property (nonatomic, strong) id<DQAlertViewDelegate> delegate;
+
+// Handle the button touching event
+@property (readwrite, copy) DQAlertViewBlock cancelButtonAction;
+@property (readwrite, copy) DQAlertViewBlock otherButtonAction;
+
 
 #pragma mark - Public Methods
 
 // Init method
 // If you pass the title by nil, the alert will be no title. If you pass the otherButtonTitle by nil, the alert will only have cancel button. You can remove all buttons by set all buton titles to nil.
-- (id) initWithTitle:(NSString *) title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitle:(NSString *)otherButtonTitle;
+- (id)initWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitle:(NSString *)otherButtonTitle;
 
 
 // You can use this methods instead of calling these properties:
@@ -134,16 +145,15 @@ typedef void (^DQAlertViewBlock)(void);
 
 // Show in specified view
 // If the custom frame has not been set, the alert will be shown at the center of the view
-- (void) showInView: (UIView *) view;
+- (void)showInView: (UIView *) view;
 
 
 // Show in window
 // Always show at center
-- (void) show;
+- (void)show;
 
 
 // Dismiss the alert
-- (void) dismiss;
-
+- (void)dismiss;
 
 @end
