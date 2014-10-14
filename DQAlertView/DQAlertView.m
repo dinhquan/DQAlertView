@@ -50,7 +50,33 @@
 }
 
 // Init method
-- (id) initWithTitle:(NSString *) title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitle:(NSString *)otherButtonTitle
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id /*<DQAlertViewDelegate>*/)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...
+{
+    NSString *firstOtherButtonTitle;
+    
+    va_list args;
+    va_start(args, otherButtonTitles);
+    for (NSString *arg = otherButtonTitles; arg != nil; arg = va_arg(args, NSString*))
+    {
+        //do something with nsstring
+        if (!firstOtherButtonTitle) {
+            firstOtherButtonTitle = arg;
+            break;
+        }
+    }
+    va_end(args);
+    
+    if ([self initWithTitle:title message:message cancelButtonTitle:cancelButtonTitle otherButtonTitle:otherButtonTitles]) {
+        self.delegate = delegate;
+        
+        return self;
+    }
+    
+    return nil;
+}
+
+// Init method shorter version
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitle:(NSString *)otherButtonTitle
 {
     self.width = DEFAULT_ALERT_WIDTH;
     self.height = DEFAULT_ALERT_HEIGHT;
@@ -85,7 +111,7 @@
 }
 
 // Show in specified view
-- (void) showInView: (UIView *) view
+- (void)showInView:(UIView *)view
 {
     [self calculateFrame];
     [self setupViews];
@@ -104,12 +130,14 @@
         [blackOpaqueView addGestureRecognizer:outsideTapGesture];
         [view addSubview:blackOpaqueView];
     }
+    
+    [self willAppearAlertView];
 
     [self addThisViewToView:view];
 }
 
 // Show in window
-- (void) show
+- (void)show
 {
     [self calculateFrame];
     [self setupViews];
@@ -559,8 +587,8 @@
         self.cancelButtonAction();
     }
     
-    if ([self.delegate respondsToSelector:@selector(DQAlertViewCancelButtonClicked)]) {
-        [self.delegate DQAlertViewCancelButtonClicked];
+    if ([self.delegate respondsToSelector:@selector(cancelButtonClickedOnAlertView:)]) {
+        [self.delegate cancelButtonClickedOnAlertView:self];
     }
 }
 
@@ -585,15 +613,22 @@
         self.otherButtonAction();
     }
     
-    if ([self.delegate respondsToSelector:@selector(DQAlertViewOtherButtonClicked)]) {
-        [self.delegate DQAlertViewOtherButtonClicked];
+    if ([self.delegate respondsToSelector:@selector(otherButtonClickedOnAlertView:)]) {
+        [self.delegate otherButtonClickedOnAlertView:self];
     }
 }
 
-- (void) didAppearAlertView
+- (void)didAppearAlertView
 {
-    if ([self.delegate respondsToSelector:@selector(DQAlertViewDidAppear)]) {
-        [self.delegate DQAlertViewDidAppear];
+    if ([self.delegate respondsToSelector:@selector(didAppearAlertView:)]) {
+        [self.delegate didAppearAlertView:self];
+    }
+}
+
+- (void)willAppearAlertView
+{
+    if ([self.delegate respondsToSelector:@selector(willAppearAlertView:)]) {
+        [self.delegate willAppearAlertView:self];
     }
 }
 

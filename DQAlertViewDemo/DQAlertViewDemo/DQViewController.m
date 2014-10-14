@@ -37,9 +37,8 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
 
 - (IBAction)shortMessage:(id)sender
 {
-    DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:shortSampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
+    DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:sampleMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK"];
 
-    alertView.delegate = self;
     [alertView show];
 }
 
@@ -211,11 +210,25 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
 //    }];
 }
 
--(void)DQAlertViewCancelButtonClicked {
+#pragma mark - DQAlertViewDelegate
+
+- (void)willAppearAlertView:(DQAlertView *)alertView
+{
+    NSLog(@"Alert View Will Appear");
+}
+
+
+- (void)didAppearAlertView:(DQAlertView *)alertView
+{
+    NSLog(@"Alert View Did Appear");
+}
+
+- (void)cancelButtonClickedOnAlertView:(DQAlertView *)alertView {
     NSLog(@"Cancel Clicked");
 }
 
--(void) DQAlertViewOtherButtonClicked {
+- (void)otherButtonClickedOnAlertView:(DQAlertView *)alertView {
     NSLog(@"OK Clicked");
 }
+
 @end

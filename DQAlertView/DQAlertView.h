@@ -29,15 +29,8 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol DQAlertViewDelegate <NSObject>
 
-@optional
-- (void) DQAlertViewDidAppear;
-
-- (void) DQAlertViewCancelButtonClicked;
-- (void) DQAlertViewOtherButtonClicked;
-
-@end
+@protocol DQAlertViewDelegate;
 
 typedef enum
 {
@@ -132,9 +125,14 @@ typedef void (^DQAlertViewBlock)(void);
 
 #pragma mark - Public Methods
 
-// Init method
+// Initialize method, same as UIAlertView
+// On the current version, the alert does not support more than one other buttons
 // If you pass the title by nil, the alert will be no title. If you pass the otherButtonTitle by nil, the alert will only have cancel button. You can remove all buttons by set all buton titles to nil.
-- (id)initWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitle:(NSString *)otherButtonTitle;
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id /*<DQAlertViewDelegate>*/)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...;
+
+// Initialize convenience method
+// If you pass the title by nil, the alert will be no title. If you pass the otherButtonTitle by nil, the alert will only have cancel button. You can remove all buttons by set all buton titles to nil.
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitle:(NSString *)otherButtonTitle;
 
 
 // You can use this methods instead of calling these properties:
@@ -155,5 +153,17 @@ typedef void (^DQAlertViewBlock)(void);
 
 // Dismiss the alert
 - (void)dismiss;
+
+@end
+
+// DQAlertViewDelegate
+@protocol DQAlertViewDelegate <NSObject>
+
+@optional
+- (void)willAppearAlertView:(DQAlertView *)alertView;
+- (void)didAppearAlertView:(DQAlertView *)alertView;
+
+- (void)cancelButtonClickedOnAlertView:(DQAlertView *)alertView;
+- (void)otherButtonClickedOnAlertView:(DQAlertView *)alertView;
 
 @end
