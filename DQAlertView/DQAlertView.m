@@ -153,9 +153,6 @@
         [window addSubview:blackOpaqueView];
     }
     
-    CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    self.frame = CGRectMake((screenSize.width - self.frame.size.width )/2, (screenSize.height - self.frame.size.height) /2, self.frame.size.width, self.frame.size.height);
-    
     [self showInView:window];
 }
 
@@ -174,7 +171,7 @@
     
     if (self.appearAnimationType == DQAlertViewAnimationTypeDefault)
     {
-        self.transform = CGAffineTransformMakeScale(.8, .8);
+        self.transform = CGAffineTransformMakeScale(.6, .6);
         self.alpha = .6;
         [UIView animateWithDuration:timeAppear delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.transform = CGAffineTransformIdentity;
@@ -184,7 +181,7 @@
             [self didAppearAlertView];
         }];
     }
-    else if ( !self.appearAnimationType || self.appearAnimationType == DQAlertViewAnimationTypeZoomIn)
+    else if (self.appearAnimationType == DQAlertViewAnimationTypeZoomIn)
     {
         self.transform = CGAffineTransformMakeScale(0.01, 0.01);
         [UIView animateWithDuration:timeAppear delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -260,13 +257,13 @@
 // Hide and dismiss the alert
 - (void) dismiss
 {
-    NSTimeInterval timeDisappear = ( self.disappearTime > 0 ) ? self.disappearTime : .2;
+    NSTimeInterval timeDisappear = ( self.disappearTime > 0 ) ? self.disappearTime : .15;
     NSTimeInterval timeDelay = .02;
     
-    if (self.appearAnimationType == DQAlertViewAnimationTypeDefault) {
+    if (self.disappearAnimationType == DQAlertViewAnimationTypeDefault) {
         self.transform = CGAffineTransformIdentity;
         [UIView animateWithDuration:timeDisappear delay:timeDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
-            self.transform = CGAffineTransformMakeScale(.8, .8);
+            self.transform = CGAffineTransformMakeScale(.6, .6);
             self.alpha = .0;
             
         } completion:^(BOOL finished){

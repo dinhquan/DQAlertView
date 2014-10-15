@@ -138,16 +138,16 @@ typedef void (^DQAlertViewBlock)(void);
 // You can use this methods instead of calling these properties:
 // @property (readwrite, copy) DQAlertViewBlock cancelButtonAction;
 // @property (readwrite, copy) DQAlertViewBlock otherButtonAction;
-- (void) actionWithBlocksCancelButtonHandler:(void (^)(void))cancelHandler otherButtonHandler:(void (^)(void))otherHandler;
+- (void)actionWithBlocksCancelButtonHandler:(void (^)(void))cancelHandler otherButtonHandler:(void (^)(void))otherHandler;
 
 
 // Show in specified view
 // If the custom frame has not been set, the alert will be shown at the center of the view
-- (void)showInView: (UIView *) view;
+- (void)showInView:(UIView *)view;
 
 
 // Show in window
-// Always show at center
+// If the custom frame has not been set, the alert will be shown at the center of the window
 - (void)show;
 
 

@@ -92,8 +92,9 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
     DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:sampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
     
     alertView.customFrame = CGRectMake(30, 30, 200, 150);
-    
-    [alertView showInView:self.view];
+    alertView.appearAnimationType = DQAlertViewAnimationTypeNone;
+
+    [alertView show];
 }
 
 - (IBAction)backgroundColor:(id)sender
@@ -102,7 +103,6 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
     
     alertView.backgroundColor = [UIColor orangeColor];
     alertView.seperatorColor = [UIColor blackColor];
-    
     [alertView showInView:self.view];
 }
 
@@ -216,7 +216,6 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
 {
     NSLog(@"Alert View Will Appear");
 }
-
 
 - (void)didAppearAlertView:(DQAlertView *)alertView
 {
