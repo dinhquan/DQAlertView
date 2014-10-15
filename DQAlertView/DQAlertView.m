@@ -23,7 +23,9 @@
     CGRect horizontalSeperatorFrame;
     
     BOOL hasModifiedFrame;
+    BOOL hasContentView;
 }
+@property (nonatomic, strong) UIView * alertContentView;
 
 @property (nonatomic, strong) UIView * horizontalSeperator;
 @property (nonatomic, strong) UIView * verticalSeperator;
@@ -85,6 +87,7 @@
     if (self) {
         // Initialization code
         
+        self.clipsToBounds = YES;
         self.title = title;
         self.message = message;
         self.cancelButtonTitle = cancelButtonTitle;
@@ -109,6 +112,8 @@
     }
     return self;
 }
+
+#pragma mark - Show the alert view
 
 // Show in specified view
 - (void)showInView:(UIView *)view
@@ -139,8 +144,8 @@
 // Show in window
 - (void)show
 {
-    [self calculateFrame];
-    [self setupViews];
+//    [self calculateFrame];
+//    [self setupViews];
     
     UIView *window = [[[UIApplication sharedApplication] delegate] window];
     
@@ -255,7 +260,7 @@
 }
 
 // Hide and dismiss the alert
-- (void) dismiss
+- (void)dismiss
 {
     NSTimeInterval timeDisappear = ( self.disappearTime > 0 ) ? self.disappearTime : .15;
     NSTimeInterval timeDelay = .02;
@@ -340,7 +345,34 @@
 
 }
 
-- (void) setCustomFrame:(CGRect)frame
+#pragma mark - Setup the alert view
+
+- (void)setContentView:(UIView *)contentView
+{
+    self.alertContentView = contentView;
+    
+    hasContentView = YES;
+    self.width = contentView.frame.size.width;
+    self.height = contentView.frame.size.height + self.buttonHeight;
+    
+    contentView.frame = contentView.bounds;
+    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.width, self.height);
+    [self addSubview:contentView];
+}
+
+- (UIView *)contentView
+{
+    return self.alertContentView;
+}
+
+- (void)setCenter:(CGPoint)center
+{
+    [super setCenter:center];
+    
+    hasModifiedFrame = YES;
+}
+
+- (void)setCustomFrame:(CGRect)frame
 {
     [super setFrame:frame];
     
@@ -351,53 +383,58 @@
     [self calculateFrame];
 }
 
-- (void) calculateFrame
+- (void)calculateFrame
 {
-    if ( ! hasModifiedFrame )
-    {
-        UIFont * messageFont = self.titleLabel.font ? self.titleLabel.font : [UIFont systemFontOfSize:14];
-        //Calculate label size
-        //Calculate the expected size based on the font and linebreak mode of your label
-        // FLT_MAX here simply means no constraint in height
-        CGSize maximumLabelSize = CGSizeMake(self.width - self.messageLeftRightPadding * 2, FLT_MAX);
-//        CGSize expectedLabelSize = [self.message sizeWithFont:messageFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
-        
-        CGRect textRect = [self.message boundingRectWithSize:maximumLabelSize
-                                             options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:@{NSFontAttributeName:messageFont}
-                                             context:nil];
-        
-        CGFloat messageHeight = textRect.size.height;
-        
-        CGFloat newHeight = messageHeight + self.titleHeight + self.buttonHeight + self.titleTopPadding + self.titleBottomPadding + self.messageBottomPadding;
-        self.height = newHeight;
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.height);
-        
-    }
-    
     BOOL hasButton = (self.cancelButtonTitle || self.otherButtonTitle);
+
+    if ( ! hasContentView ) {
+        if ( ! hasModifiedFrame )
+        {
+            UIFont * messageFont = self.titleLabel.font ? self.titleLabel.font : [UIFont systemFontOfSize:14];
+            //Calculate label size
+            //Calculate the expected size based on the font and linebreak mode of your label
+            // FLT_MAX here simply means no constraint in height
+            CGSize maximumLabelSize = CGSizeMake(self.width - self.messageLeftRightPadding * 2, FLT_MAX);
+            //        CGSize expectedLabelSize = [self.message sizeWithFont:messageFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+            
+            CGRect textRect = [self.message boundingRectWithSize:maximumLabelSize
+                                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                                      attributes:@{NSFontAttributeName:messageFont}
+                                                         context:nil];
+            
+            CGFloat messageHeight = textRect.size.height;
+            
+            CGFloat newHeight = messageHeight + self.titleHeight + self.buttonHeight + self.titleTopPadding + self.titleBottomPadding + self.messageBottomPadding;
+            self.height = newHeight;
+            self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.height);
+            
+        }
+        
+        
+        if ( ! self.title ) {
+            titleLabelFrame = CGRectZero;
+        } else {
+            titleLabelFrame = CGRectMake(self.messageLeftRightPadding,
+                                         self.titleTopPadding,
+                                         self.width - self.messageLeftRightPadding * 2,
+                                         self.titleHeight);
+        }
+        if ( ! self.message ) {
+            messageLabelFrame = CGRectZero;
+        } else if (hasButton) {
+            messageLabelFrame = CGRectMake(self.messageLeftRightPadding,
+                                           titleLabelFrame.origin.y + titleLabelFrame.size.height + self.titleBottomPadding,
+                                           self.width - self.messageLeftRightPadding * 2,
+                                           self.height - self.buttonHeight - titleLabelFrame.size.height - self.titleTopPadding - self.titleBottomPadding);
+        } else {
+            messageLabelFrame = CGRectMake(self.messageLeftRightPadding,
+                                           titleLabelFrame.origin.y +  titleLabelFrame.size.height + self.titleBottomPadding,
+                                           self.width - self.messageLeftRightPadding * 2,
+                                           self.height - titleLabelFrame.size.height - self.titleTopPadding - self.titleBottomPadding);
+        }
+
+    }
     
-    if ( ! self.title ) {
-        titleLabelFrame = CGRectZero;
-    } else {
-        titleLabelFrame = CGRectMake(self.messageLeftRightPadding,
-                                     self.titleTopPadding,
-                                     self.width - self.messageLeftRightPadding * 2,
-                                     self.titleHeight);
-    }
-    if ( ! self.message ) {
-        messageLabelFrame = CGRectZero;
-    } else if (hasButton) {
-        messageLabelFrame = CGRectMake(self.messageLeftRightPadding,
-                                       titleLabelFrame.origin.y + titleLabelFrame.size.height + self.titleBottomPadding,
-                                       self.width - self.messageLeftRightPadding * 2,
-                                       self.height - self.buttonHeight - titleLabelFrame.size.height - self.titleTopPadding - self.titleBottomPadding);
-    } else {
-        messageLabelFrame = CGRectMake(self.messageLeftRightPadding,
-                                       titleLabelFrame.origin.y +  titleLabelFrame.size.height + self.titleBottomPadding,
-                                       self.width - self.messageLeftRightPadding * 2,
-                                       self.height - titleLabelFrame.size.height - self.titleTopPadding - self.titleBottomPadding);
-    }
     
     if ( self.hideSeperator || ! hasButton ) {
         verticalSeperatorFrame = CGRectZero;
@@ -457,7 +494,7 @@
 
 }
 
-- (void) setupItems
+- (void)setupItems
 {
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -499,7 +536,7 @@
     self.verticalSeperator = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
-- (void) setupViews
+- (void)setupViews
 {
     // Setup Background
     if (self.backgroundImage) {
@@ -548,8 +585,11 @@
 
     
     // Add subviews
-    [self addSubview:self.titleLabel];
-    [self addSubview:self.messageLabel];
+    if ( ! hasContentView) {
+        [self addSubview:self.titleLabel];
+        [self addSubview:self.messageLabel];
+    }
+
     [self addSubview:self.cancelButton];
     [self addSubview:self.otherButton];
     [self addSubview:self.horizontalSeperator];
@@ -558,13 +598,13 @@
 
 #pragma mark - Actions
 
-- (void) actionWithBlocksCancelButtonHandler:(void (^)(void))cancelHandler otherButtonHandler:(void (^)(void))otherHandler
+- (void)actionWithBlocksCancelButtonHandler:(void (^)(void))cancelHandler otherButtonHandler:(void (^)(void))otherHandler
 {
     self.cancelButtonAction = cancelHandler;
     self.otherButtonAction = otherHandler;
 }
 
-- (void) cancelButtonClicked: (id) sender
+- (void)cancelButtonClicked:(id)sender
 {
     if (self.buttonClickedHighlight)
     {
@@ -589,7 +629,7 @@
     }
 }
 
-- (void) otherButtonClicked: (id) sender
+- (void)otherButtonClicked:(id)sender
 {
     if (self.buttonClickedHighlight)
     {

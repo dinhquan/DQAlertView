@@ -53,8 +53,13 @@ typedef void (^DQAlertViewBlock)(void);
 
 #pragma mark - Public Properties
 
-// Set the custom frame for the Alert View
+// Set the custom frame for the Alert View, if this property has not been set the Alert will be shown at center of the view. Don't use the default method [UIView setFrame:]
 @property (nonatomic, assign) CGRect customFrame; // Default is same as UIAlertView
+
+
+// Set the content view for the Alert View
+// The frame of alert view will be resized based on the frame of content view, so you don't have to set the custom frame. If you want the alert view not shown at center, just set the center of the Alert View
+@property (nonatomic, strong) UIView *contentView;
 
 
 // You can get buttons and labels for customizing their appearance

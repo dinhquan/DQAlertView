@@ -64,6 +64,8 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
 {
     DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:sampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:nil];
     
+    alertView.center = CGPointMake(40, 40);
+    
     [alertView showInView:self.view];
 }
 
@@ -186,11 +188,16 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
     [alertView showInView:self.view];
 }
 
-- (IBAction)handleAction:(id)sender
+- (IBAction)contentView:(id)sender
 {
     DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:sampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
     
-    [alertView showInView:self.view];
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 300)];
+    contentView.backgroundColor = [UIColor yellowColor];
+    
+    alertView.contentView = contentView;
+    
+    [alertView show];
     
     alertView.cancelButtonAction = ^{
         NSLog(@"Cancel Clicked");
