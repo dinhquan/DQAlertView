@@ -15,10 +15,13 @@ With DQAlertView, you can easily make your desired Alert View in some lines of c
 #### Using CocoaPods
 Just add the following line in to your pod file:
 ```
-pod 'DQAlertView', '~> 1.0.0'
+pod 'DQAlertView', '~> 1.0'
 ```
 #### Manually
 Drag and drop the subfolder named ```DQAlertView``` in your project and you are done.
+
+#### What's new ?
+v1.1.0:  New feature: Customize alert by custom content view
 
 ## Feature
 
@@ -30,6 +33,7 @@ With the DQAlertView, you can easily:
 - Customize buttons font, color, position
 - Customize separator color, hidden or not
 - Customize alert appear behaviour and disappear behaviour
+- Customize alert by custom content view
 - Callbacks and blocks for appearance or button touching event
 - And much more ...
 
