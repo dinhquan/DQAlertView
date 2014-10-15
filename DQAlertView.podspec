@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/dinhquan/DQAlertView"
-  s.license      = { :type => 'MIT', :file => 'FILE_LICENSE' }
+  s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { 'Dinh Quan' => 'dinhquan191@gmail.com' }
   s.platform     = :ios
   s.source       = { :git => "https://github.com/dinhquan/DQAlertView.git", :tag => "1.0.0" }
