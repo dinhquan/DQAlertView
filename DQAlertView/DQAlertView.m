@@ -94,7 +94,7 @@
         self.otherButtonTitle = otherButtonTitle;
         self.appearAnimationType = DQAlertViewAnimationTypeDefault;
         self.disappearAnimationType = DQAlertViewAnimationTypeDefault;
-        self.cornerRadius = 4;
+        self.cornerRadius = 6;
         self.buttonClickedHighlight = YES;
         
         self.buttonHeight  = 44;
@@ -170,13 +170,13 @@
 
 - (void) addThisViewToView: (UIView *) view
 {
-    NSTimeInterval timeAppear = ( self.appearTime > 0 ) ? self.appearTime : .25;
+    NSTimeInterval timeAppear = ( self.appearTime > 0 ) ? self.appearTime : .2;
 
     [view addSubview:self];
     
     if (self.appearAnimationType == DQAlertViewAnimationTypeDefault)
     {
-        self.transform = CGAffineTransformMakeScale(.6, .6);
+        self.transform = CGAffineTransformMakeScale(1.2, 1.2);
         self.alpha = .6;
         [UIView animateWithDuration:timeAppear delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.transform = CGAffineTransformIdentity;
@@ -262,7 +262,7 @@
 // Hide and dismiss the alert
 - (void)dismiss
 {
-    NSTimeInterval timeDisappear = ( self.disappearTime > 0 ) ? self.disappearTime : .15;
+    NSTimeInterval timeDisappear = ( self.disappearTime > 0 ) ? self.disappearTime : .1;
     NSTimeInterval timeDelay = .02;
     
     if (self.disappearAnimationType == DQAlertViewAnimationTypeDefault) {
@@ -349,6 +349,9 @@
 
 - (void)setContentView:(UIView *)contentView
 {
+    if ( ! self.title && ! self.message) {
+        self.buttonHeight = 0;
+    }
     self.alertContentView = contentView;
     
     hasContentView = YES;
@@ -491,6 +494,14 @@
                                       self.buttonHeight);
     }
     
+    if ( ! self.otherButtonTitle && ! self.cancelButtonTitle) {
+        cancelButtonFrame = CGRectZero;
+        otherButtonFrame = CGRectZero;
+        
+        self.height = self.height - self.buttonHeight;
+        self.buttonHeight = 0;
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.height);
+    }
 
 }
 
@@ -519,17 +530,18 @@
     
     //Setup Cancel Button
     self.cancelButton.backgroundColor = [UIColor clearColor];
-    [self.cancelButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    self.cancelButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    [self.cancelButton setTitleColor:[UIColor colorWithRed:0 green:0.478431 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+    self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:17];
     [self.cancelButton setTitle:self.cancelButtonTitle forState:UIControlStateNormal];
     [self.cancelButton addTarget:self action:@selector(cancelButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     //Setup Other Button
     self.otherButton.backgroundColor = [UIColor clearColor];
-    [self.otherButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    self.otherButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    [self.otherButton setTitleColor:[UIColor colorWithRed:0 green:0.478431 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
+    self.otherButton.titleLabel.font = [UIFont boldSystemFontOfSize:17];
     [self.otherButton setTitle:self.otherButtonTitle forState:UIControlStateNormal];
     [self.otherButton addTarget:self action:@selector(otherButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+
     
     //Set up Seperator
     self.horizontalSeperator = [[UIView alloc] initWithFrame:CGRectZero];

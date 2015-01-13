@@ -64,7 +64,6 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
 {
     DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:sampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:nil];
     
-    alertView.center = CGPointMake(40, 40);
     
     [alertView showInView:self.view];
 }
