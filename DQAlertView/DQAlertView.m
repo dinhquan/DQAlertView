@@ -38,6 +38,9 @@
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, assign) CGFloat height;
 
+@property (nonatomic, strong) UIColor *originCancelButtonColor;
+@property (nonatomic, strong) UIColor *originOtherButtonColor;
+
 @end
 
 @implementation DQAlertView
@@ -262,7 +265,7 @@
 // Hide and dismiss the alert
 - (void)dismiss
 {
-    NSTimeInterval timeDisappear = ( self.disappearTime > 0 ) ? self.disappearTime : .1;
+    NSTimeInterval timeDisappear = ( self.disappearTime > 0 ) ? self.disappearTime : .08;
     NSTimeInterval timeDelay = .02;
     
     if (self.disappearAnimationType == DQAlertViewAnimationTypeDefault) {
@@ -534,14 +537,17 @@
     self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:17];
     [self.cancelButton setTitle:self.cancelButtonTitle forState:UIControlStateNormal];
     [self.cancelButton addTarget:self action:@selector(cancelButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
+//    [self.cancelButton addTarget:self action:@selector(cancelButtonTouchBegan:) forControlEvents:UIControlEventTouchDragInside];
+//    [self.cancelButton addTarget:self action:@selector(cancelButtonTouchEnded:) forControlEvents:UIControlEventTouchDragOutside];
+
     //Setup Other Button
     self.otherButton.backgroundColor = [UIColor clearColor];
     [self.otherButton setTitleColor:[UIColor colorWithRed:0 green:0.478431 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
     self.otherButton.titleLabel.font = [UIFont boldSystemFontOfSize:17];
     [self.otherButton setTitle:self.otherButtonTitle forState:UIControlStateNormal];
     [self.otherButton addTarget:self action:@selector(otherButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-
+//    [self.otherButton addTarget:self action:@selector(otherButtonTouchBegan:) forControlEvents:UIControlEventTouchDragInside];
+//    [self.otherButton addTarget:self action:@selector(otherButtonTouchEnded:) forControlEvents:UIControlEventTouchDragOutside];
     
     //Set up Seperator
     self.horizontalSeperator = [[UIView alloc] initWithFrame:CGRectZero];
@@ -608,6 +614,32 @@
     [self addSubview:self.verticalSeperator];
 }
 
+
+#pragma mark - Touch Event
+
+- (void)cancelButtonTouchBegan:(id)sender
+{
+    self.originCancelButtonColor = [self.cancelButton.backgroundColor colorWithAlphaComponent:0];
+    self.cancelButton.backgroundColor = [self.cancelButton.backgroundColor colorWithAlphaComponent:.1];
+}
+
+- (void)cancelButtonTouchEnded:(id)sender
+{
+    self.cancelButton.backgroundColor = self.originCancelButtonColor;
+}
+
+- (void)otherButtonTouchBegan:(id)sender
+{
+    self.originOtherButtonColor = [self.otherButton.backgroundColor colorWithAlphaComponent:0];
+    self.otherButton.backgroundColor = [self.otherButton.backgroundColor colorWithAlphaComponent:.1];
+}
+
+- (void)otherButtonTouchEnded:(id)sender
+{
+    self.otherButton.backgroundColor = self.originOtherButtonColor;
+}
+
+
 #pragma mark - Actions
 
 - (void)actionWithBlocksCancelButtonHandler:(void (^)(void))cancelHandler otherButtonHandler:(void (^)(void))otherHandler
@@ -622,7 +654,7 @@
     {
         UIColor * originColor = [self.cancelButton.backgroundColor colorWithAlphaComponent:0];
         self.cancelButton.backgroundColor = [self.cancelButton.backgroundColor colorWithAlphaComponent:.1];
-        double delayInSeconds = .1;
+        double delayInSeconds = .2;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             self.otherButton.backgroundColor = originColor;
@@ -647,7 +679,7 @@
     {
         UIColor * originColor = [self.otherButton.backgroundColor colorWithAlphaComponent:0];
         self.otherButton.backgroundColor = [self.otherButton.backgroundColor colorWithAlphaComponent:.1];
-        double delayInSeconds = .1;
+        double delayInSeconds = .2;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             self.otherButton.backgroundColor = originColor;
