@@ -21,8 +21,8 @@ pod 'DQAlertView', '~> 1.1.1'
 Drag and drop the subfolder named ```DQAlertView``` in your project and you are done.
 
 #### What's new ?
-v1.1.0:  New feature: Customize alert by custom content view
-v1.2.0:  The DQAlertView default appearance is exactly same as UIAlertView
+- v1.1.0:  New feature: Customize alert by custom content view
+- v1.2.0:  The DQAlertView default appearance is exactly same as UIAlertView
 
 ## Feature
 
