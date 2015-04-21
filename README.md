@@ -21,7 +21,8 @@ pod 'DQAlertView', '~> 1.1.1'
 Drag and drop the subfolder named ```DQAlertView``` in your project and you are done.
 
 #### What's new ?
-v1.1.0:  New feature: Customize alert by custom content view
+- v1.1.0:  New feature: Customize alert by custom content view
+- v1.2.0:  The DQAlertView default appearance is exactly same as UIAlertView
 
 ## Feature
 
@@ -119,8 +120,13 @@ DQAlertView can be customized with the following properties:
 
 ```objective-c
 
-/// Set the custom frame for the Alert View
+// Set the custom frame for the Alert View, if this property has not been set the Alert will be shown at center of the view. Don't use the default method [UIView setFrame:]
 @property (nonatomic, assign) CGRect customFrame; // Default is same as UIAlertView
+
+
+// Set the content view for the Alert View
+// The frame of alert view will be resized based on the frame of content view, so you don't have to set the custom frame. If you want the alert view not shown at center, just set the center of the Alert View
+@property (nonatomic, strong) UIView *contentView;
 
 
 // You can get buttons and labels for customizing their appearance
@@ -132,32 +138,32 @@ DQAlertView can be customized with the following properties:
 
 // Set the height of title and button; and the padding of elements. The message label height is calculated based on its text and font.
 @property (nonatomic, assign) CGFloat buttonHeight; // Default is 44
-@property (nonatomic, assign) CGFloat titleHeight; // Default is 30
+@property (nonatomic, assign) CGFloat titleHeight; // Default is 34
 
-@property (nonatomic, assign) CGFloat titleTopPadding; //Default is 5
-@property (nonatomic, assign) CGFloat titleBottomPadding; // Default is 0
-@property (nonatomic, assign) CGFloat messageBottomPadding; // Default is 10
-@property (nonatomic, assign) CGFloat messageLeftRightPadding; // Default is 10
+@property (nonatomic, assign) CGFloat titleTopPadding; //Default is 14
+@property (nonatomic, assign) CGFloat titleBottomPadding; // Default is 2
+@property (nonatomic, assign) CGFloat messageBottomPadding; // Default is 20
+@property (nonatomic, assign) CGFloat messageLeftRightPadding; // Default is 20
 
 
 // Customize the background and border
 @property (nonatomic, strong) UIColor * borderColor; // Default is no border
 @property (nonatomic, assign) CGFloat borderWidth; // Default is 0
-@property (nonatomic, assign) CGFloat cornerRadius; // Default is 4
-// inherits from UIView @property (nonatomic, strong) UIColor * backgroundColor; // Default is white color with alpha 1
+@property (nonatomic, assign) CGFloat cornerRadius; // Default is 8
+// inherits from UIView @property (nonatomic, strong) UIColor * backgroundColor; // Default is same as UIAlertView
 @property (nonatomic, strong) UIImage * backgroundImage; // Default is nil
 
 
 // Customize the seperator
 @property (nonatomic, assign) BOOL hideSeperator; // Default is NO
-@property (nonatomic, strong) UIColor * seperatorColor; // Default is light gray color
+@property (nonatomic, strong) UIColor * separatorColor; // Default is same as UIAlertView
 
 
 // Customize the appearing and disappearing animations
 @property (nonatomic, assign) DQAlertViewAnimationType appearAnimationType;
 @property (nonatomic, assign) DQAlertViewAnimationType disappearAnimationType;
-@property (nonatomic, assign) NSTimeInterval appearTime; // Default is 0.5
-@property (nonatomic, assign) NSTimeInterval disappearTime; // Default is 0.3
+@property (nonatomic, assign) NSTimeInterval appearTime; // Default is 0.2
+@property (nonatomic, assign) NSTimeInterval disappearTime; // Default is 0.1
 
 
 // Make the cancel button appear on the right by setting this to YES
@@ -167,7 +173,7 @@ DQAlertView can be customized with the following properties:
 @property (nonatomic, assign) BOOL buttonClickedHighlight; //Default is YES
 
 // By default the alert will not dismiss if clicked to other button, set this property to YES to change the behaviour
-@property (nonatomic, assign) BOOL shouldDismissOnActionButtonClicked; //Default is NO
+@property (nonatomic, assign) BOOL shouldDismissOnActionButtonClicked; //Default is YES
 
 // If this property is YES, the alert will dismiss when you click on outside (only when dim background is enable)
 @property (nonatomic, assign) BOOL shouldDismissOnOutsideTapped; //Default is NO
@@ -179,14 +185,7 @@ DQAlertView can be customized with the following properties:
 @property (nonatomic, assign) BOOL shouldDimBackgroundWhenShowInView; //Default is NO
 
 // The default color of dim background is black color with alpha 0.2
-@property (nonatomic, assign) CGFloat dimAlpha; //Default is 0.2
-
-// Delegate
-@property (nonatomic, strong) id<DQAlertViewDelegate> delegate;
-
-// Handle the button touching event
-@property (readwrite, copy) DQAlertViewBlock cancelButtonAction;
-@property (readwrite, copy) DQAlertViewBlock otherButtonAction;
+@property (nonatomic, assign) CGFloat dimAlpha; //Default is same as UIAlertView
 
 ```
 
