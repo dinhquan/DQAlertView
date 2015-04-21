@@ -71,32 +71,32 @@ typedef void (^DQAlertViewBlock)(void);
 
 // Set the height of title and button; and the padding of elements. The message label height is calculated based on its text and font.
 @property (nonatomic, assign) CGFloat buttonHeight; // Default is 44
-@property (nonatomic, assign) CGFloat titleHeight; // Default is 30
+@property (nonatomic, assign) CGFloat titleHeight; // Default is 34
 
-@property (nonatomic, assign) CGFloat titleTopPadding; //Default is 5
-@property (nonatomic, assign) CGFloat titleBottomPadding; // Default is 0
-@property (nonatomic, assign) CGFloat messageBottomPadding; // Default is 10
-@property (nonatomic, assign) CGFloat messageLeftRightPadding; // Default is 10
+@property (nonatomic, assign) CGFloat titleTopPadding; //Default is 14
+@property (nonatomic, assign) CGFloat titleBottomPadding; // Default is 2
+@property (nonatomic, assign) CGFloat messageBottomPadding; // Default is 20
+@property (nonatomic, assign) CGFloat messageLeftRightPadding; // Default is 20
 
 
 // Customize the background and border
 @property (nonatomic, strong) UIColor * borderColor; // Default is no border
 @property (nonatomic, assign) CGFloat borderWidth; // Default is 0
-@property (nonatomic, assign) CGFloat cornerRadius; // Default is 4
-// inherits from UIView @property (nonatomic, strong) UIColor * backgroundColor; // Default is white color with alpha 1
+@property (nonatomic, assign) CGFloat cornerRadius; // Default is 8
+// inherits from UIView @property (nonatomic, strong) UIColor * backgroundColor; // Default is same as UIAlertView
 @property (nonatomic, strong) UIImage * backgroundImage; // Default is nil
 
 
 // Customize the seperator
 @property (nonatomic, assign) BOOL hideSeperator; // Default is NO
-@property (nonatomic, strong) UIColor * seperatorColor; // Default is light gray color
+@property (nonatomic, strong) UIColor * separatorColor; // Default is same as UIAlertView
 
 
 // Customize the appearing and disappearing animations
 @property (nonatomic, assign) DQAlertViewAnimationType appearAnimationType;
 @property (nonatomic, assign) DQAlertViewAnimationType disappearAnimationType;
-@property (nonatomic, assign) NSTimeInterval appearTime; // Default is 0.5
-@property (nonatomic, assign) NSTimeInterval disappearTime; // Default is 0.3
+@property (nonatomic, assign) NSTimeInterval appearTime; // Default is 0.2
+@property (nonatomic, assign) NSTimeInterval disappearTime; // Default is 0.1
 
 
 // Make the cancel button appear on the right by setting this to YES
@@ -106,7 +106,7 @@ typedef void (^DQAlertViewBlock)(void);
 @property (nonatomic, assign) BOOL buttonClickedHighlight; //Default is YES
 
 // By default the alert will not dismiss if clicked to other button, set this property to YES to change the behaviour
-@property (nonatomic, assign) BOOL shouldDismissOnActionButtonClicked; //Default is NO
+@property (nonatomic, assign) BOOL shouldDismissOnActionButtonClicked; //Default is YES
 
 // If this property is YES, the alert will dismiss when you click on outside (only when dim background is enable)
 @property (nonatomic, assign) BOOL shouldDismissOnOutsideTapped; //Default is NO
@@ -118,7 +118,7 @@ typedef void (^DQAlertViewBlock)(void);
 @property (nonatomic, assign) BOOL shouldDimBackgroundWhenShowInView; //Default is NO
 
 // The default color of dim background is black color with alpha 0.2
-@property (nonatomic, assign) CGFloat dimAlpha; //Default is 0.2
+@property (nonatomic, assign) CGFloat dimAlpha; //Default is same as UIAlertView
 
 // Delegate
 @property (nonatomic, strong) id<DQAlertViewDelegate> delegate;

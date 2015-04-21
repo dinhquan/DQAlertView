@@ -8,9 +8,7 @@
 #import "DQAlertView.h"
 
 #define DEFAULT_ALERT_WIDTH 270
-#define DEFAULT_ALERT_HEIGHT 122
-
-#define BLACK_OPAQUE_VIEW_TAG 908
+#define DEFAULT_ALERT_HEIGHT 144
 
 @interface DQAlertView ()
 {
@@ -27,8 +25,10 @@
 }
 @property (nonatomic, strong) UIView * alertContentView;
 
-@property (nonatomic, strong) UIView * horizontalSeperator;
-@property (nonatomic, strong) UIView * verticalSeperator;
+@property (nonatomic, strong) UIView * horizontalSeparator;
+@property (nonatomic, strong) UIView * verticalSeparator;
+
+@property (nonatomic, strong) UIView * blackOpaqueView;
 
 @property (nonatomic, strong) NSString * title;
 @property (nonatomic, strong) NSString * message;
@@ -97,18 +97,19 @@
         self.otherButtonTitle = otherButtonTitle;
         self.appearAnimationType = DQAlertViewAnimationTypeDefault;
         self.disappearAnimationType = DQAlertViewAnimationTypeDefault;
-        self.cornerRadius = 6;
+        self.cornerRadius = 8;
         self.buttonClickedHighlight = YES;
         
-        self.buttonHeight  = 44;
-        self.titleTopPadding = 5;
-        self.titleHeight  = 30;
-        self.titleBottomPadding = 0;
-        self.messageBottomPadding = 10;
-        self.messageLeftRightPadding = 10;
+        self.buttonHeight = 44;
+        self.titleTopPadding = 14;
+        self.titleHeight = 34;
+        self.titleBottomPadding = 2;
+        self.messageBottomPadding = 20;
+        self.messageLeftRightPadding = 20;
         
         self.shouldDimBackgroundWhenShowInWindow = YES;
-        self.dimAlpha = 0.2;
+        self.shouldDismissOnActionButtonClicked = YES;
+        self.dimAlpha = 0.4;
         
         [self setupItems];
 
@@ -131,12 +132,12 @@
 
     if (self.shouldDimBackgroundWhenShowInView && view != window) {
         UIView *window = [[[UIApplication sharedApplication] delegate] window];
-        UIView *blackOpaqueView = [[UIView alloc] initWithFrame:window.bounds];
-        blackOpaqueView.backgroundColor = [UIColor colorWithWhite:0 alpha:self.dimAlpha];
-        blackOpaqueView.tag = BLACK_OPAQUE_VIEW_TAG;
+        self.blackOpaqueView = [[UIView alloc] initWithFrame:window.bounds];
+        self.blackOpaqueView.backgroundColor = [UIColor colorWithWhite:0 alpha:self.dimAlpha];
+        
         UITapGestureRecognizer *outsideTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(outsideTap:)];
-        [blackOpaqueView addGestureRecognizer:outsideTapGesture];
-        [view addSubview:blackOpaqueView];
+        [self.blackOpaqueView addGestureRecognizer:outsideTapGesture];
+        [view addSubview:self.blackOpaqueView];
     }
     
     [self willAppearAlertView];
@@ -153,12 +154,12 @@
     UIView *window = [[[UIApplication sharedApplication] delegate] window];
     
     if (self.shouldDimBackgroundWhenShowInWindow) {
-        UIView *blackOpaqueView = [[UIView alloc] initWithFrame:window.bounds];
-        blackOpaqueView.backgroundColor = [UIColor colorWithWhite:0 alpha:self.dimAlpha];
-        blackOpaqueView.tag = BLACK_OPAQUE_VIEW_TAG;
+        self.blackOpaqueView = [[UIView alloc] initWithFrame:window.bounds];
+        self.blackOpaqueView.backgroundColor = [UIColor colorWithWhite:0 alpha:self.dimAlpha];
+
         UITapGestureRecognizer *outsideTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(outsideTap:)];
-        [blackOpaqueView addGestureRecognizer:outsideTapGesture];
-        [window addSubview:blackOpaqueView];
+        [self.blackOpaqueView addGestureRecognizer:outsideTapGesture];
+        [window addSubview:self.blackOpaqueView];
     }
     
     [self showInView:window];
@@ -174,14 +175,15 @@
 - (void) addThisViewToView: (UIView *) view
 {
     NSTimeInterval timeAppear = ( self.appearTime > 0 ) ? self.appearTime : .2;
+    NSTimeInterval timeDelay = 0;
 
     [view addSubview:self];
     
     if (self.appearAnimationType == DQAlertViewAnimationTypeDefault)
     {
-        self.transform = CGAffineTransformMakeScale(1.2, 1.2);
+        self.transform = CGAffineTransformMakeScale(1.1, 1.1);
         self.alpha = .6;
-        [UIView animateWithDuration:timeAppear delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:timeAppear delay:timeDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.transform = CGAffineTransformIdentity;
             self.alpha = 1;
             
@@ -192,7 +194,7 @@
     else if (self.appearAnimationType == DQAlertViewAnimationTypeZoomIn)
     {
         self.transform = CGAffineTransformMakeScale(0.01, 0.01);
-        [UIView animateWithDuration:timeAppear delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:timeAppear delay:timeDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.transform = CGAffineTransformIdentity;
             
         } completion:^(BOOL finished){
@@ -202,7 +204,7 @@
     else if (self.appearAnimationType == DQAlertViewAnimationTypeFadeIn)
     {
         self.alpha = 0;
-        [UIView animateWithDuration:timeAppear delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:timeAppear delay:timeDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.alpha = 1;
             
         } completion:^(BOOL finished){
@@ -213,7 +215,7 @@
     {
         CGRect tmpFrame = self.frame;
         self.frame = CGRectMake(self.frame.origin.x, - self.frame.size.height - 10, self.frame.size.width, self.frame.size.height);
-        [UIView animateWithDuration:timeAppear delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:timeAppear delay:timeDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.frame = tmpFrame;
             
         } completion:^(BOOL finished){
@@ -225,7 +227,7 @@
     {
         CGRect tmpFrame = self.frame;
         self.frame = CGRectMake( self.frame.origin.x, view.frame.size.height + 10, self.frame.size.width, self.frame.size.height);
-        [UIView animateWithDuration:timeAppear delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:timeAppear delay:timeDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.frame = tmpFrame;
             
         } completion:^(BOOL finished){
@@ -237,7 +239,7 @@
     {
         CGRect tmpFrame = self.frame;
         self.frame = CGRectMake( - self.frame.size.width - 10, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
-        [UIView animateWithDuration:timeAppear delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:timeAppear delay:timeDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.frame = tmpFrame;
             
         } completion:^(BOOL finished){
@@ -249,7 +251,7 @@
     {
         CGRect tmpFrame = self.frame;
         self.frame = CGRectMake(view.frame.size.width + 10, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
-        [UIView animateWithDuration:timeAppear delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:timeAppear delay:timeDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.frame = tmpFrame;
             
         } completion:^(BOOL finished){
@@ -271,12 +273,11 @@
     if (self.disappearAnimationType == DQAlertViewAnimationTypeDefault) {
         self.transform = CGAffineTransformIdentity;
         [UIView animateWithDuration:timeDisappear delay:timeDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
-            self.transform = CGAffineTransformMakeScale(.6, .6);
             self.alpha = .0;
-            
         } completion:^(BOOL finished){
             [self removeFromSuperview];
-        }];    }
+        }];
+    }
     else if (self.disappearAnimationType == DQAlertViewAnimationTypeZoomOut )
     {
         self.transform = CGAffineTransformIdentity;
@@ -338,14 +339,14 @@
         [self removeFromSuperview];
     }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.disappearTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        UIView *window = [[[UIApplication sharedApplication] delegate] window];
-        UIView *blackOpaqueView = [window viewWithTag:BLACK_OPAQUE_VIEW_TAG];
-        if (blackOpaqueView) {
-            [blackOpaqueView removeFromSuperview];
-        }
-    });
 
+    if (self.blackOpaqueView) {
+        [UIView animateWithDuration:timeDisappear animations:^{
+            self.blackOpaqueView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self.blackOpaqueView removeFromSuperview];
+        }];
+    }
 }
 
 #pragma mark - Setup the alert view
@@ -396,7 +397,7 @@
     if ( ! hasContentView ) {
         if ( ! hasModifiedFrame )
         {
-            UIFont * messageFont = self.titleLabel.font ? self.titleLabel.font : [UIFont systemFontOfSize:14];
+            UIFont * messageFont = self.messageLabel.font ? self.messageLabel.font : [UIFont systemFontOfSize:14];
             //Calculate label size
             //Calculate the expected size based on the font and linebreak mode of your label
             // FLT_MAX here simply means no constraint in height
@@ -437,6 +438,10 @@
                                            titleLabelFrame.origin.y +  titleLabelFrame.size.height + self.titleBottomPadding,
                                            self.width - self.messageLeftRightPadding * 2,
                                            self.height - titleLabelFrame.size.height - self.titleTopPadding - self.titleBottomPadding);
+        }
+        
+        if ( ! self.title || self.title.length == 0 ) {
+            messageLabelFrame = CGRectMake(self.messageLeftRightPadding, 0, self.width - self.messageLeftRightPadding * 2, self.height - self.buttonHeight);
         }
 
     }
@@ -517,7 +522,7 @@
     
     // Setup Title Label
     self.titleLabel.numberOfLines = 0;
-    self.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    self.titleLabel.font = [UIFont boldSystemFontOfSize:17];
     self.titleLabel.text = self.title;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.titleLabel.textColor = [UIColor blackColor];
@@ -525,7 +530,7 @@
     
     // Setup Message Label
     self.messageLabel.numberOfLines = 0;
-    self.messageLabel.font = [UIFont systemFontOfSize:14];
+    self.messageLabel.font = [UIFont systemFontOfSize:13];
     self.messageLabel.text = self.message;
     self.messageLabel.textAlignment = NSTextAlignmentCenter;
     self.messageLabel.textColor = [UIColor blackColor];
@@ -534,7 +539,7 @@
     //Setup Cancel Button
     self.cancelButton.backgroundColor = [UIColor clearColor];
     [self.cancelButton setTitleColor:[UIColor colorWithRed:0 green:0.478431 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
-    self.cancelButton.titleLabel.font = [UIFont systemFontOfSize:17];
+    self.cancelButton.titleLabel.font = [UIFont boldSystemFontOfSize:17];
     [self.cancelButton setTitle:self.cancelButtonTitle forState:UIControlStateNormal];
     [self.cancelButton addTarget:self action:@selector(cancelButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
 //    [self.cancelButton addTarget:self action:@selector(cancelButtonTouchBegan:) forControlEvents:UIControlEventTouchDragInside];
@@ -543,15 +548,15 @@
     //Setup Other Button
     self.otherButton.backgroundColor = [UIColor clearColor];
     [self.otherButton setTitleColor:[UIColor colorWithRed:0 green:0.478431 blue:1.0 alpha:1.0] forState:UIControlStateNormal];
-    self.otherButton.titleLabel.font = [UIFont boldSystemFontOfSize:17];
+    self.otherButton.titleLabel.font = [UIFont systemFontOfSize:17];
     [self.otherButton setTitle:self.otherButtonTitle forState:UIControlStateNormal];
     [self.otherButton addTarget:self action:@selector(otherButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
 //    [self.otherButton addTarget:self action:@selector(otherButtonTouchBegan:) forControlEvents:UIControlEventTouchDragInside];
 //    [self.otherButton addTarget:self action:@selector(otherButtonTouchEnded:) forControlEvents:UIControlEventTouchDragOutside];
     
     //Set up Seperator
-    self.horizontalSeperator = [[UIView alloc] initWithFrame:CGRectZero];
-    self.verticalSeperator = [[UIView alloc] initWithFrame:CGRectZero];
+    self.horizontalSeparator = [[UIView alloc] initWithFrame:CGRectZero];
+    self.verticalSeparator = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)setupViews
@@ -562,7 +567,7 @@
     } else if (self.backgroundColor) {
         [self setBackgroundColor:self.backgroundColor];
     } else {
-        [self setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+        [self setBackgroundColor:[UIColor colorWithRed:246.0/255 green:246.0/25 blue:246.0/25 alpha:1.0]];
     }
     
     if (self.borderWidth) {
@@ -582,15 +587,15 @@
     self.cancelButton.frame = cancelButtonFrame;
     self.otherButton.frame = otherButtonFrame;
     
-    self.horizontalSeperator.frame = horizontalSeperatorFrame;
-    self.verticalSeperator.frame = verticalSeperatorFrame;
+    self.horizontalSeparator.frame = horizontalSeperatorFrame;
+    self.verticalSeparator.frame = verticalSeperatorFrame;
     
-    if (self.seperatorColor) {
-        self.horizontalSeperator.backgroundColor = self.seperatorColor;
-        self.verticalSeperator.backgroundColor = self.seperatorColor;
+    if (self.separatorColor) {
+        self.horizontalSeparator.backgroundColor = self.separatorColor;
+        self.verticalSeparator.backgroundColor = self.separatorColor;
     } else {
-        self.horizontalSeperator.backgroundColor = [UIColor lightGrayColor];
-        self.verticalSeperator.backgroundColor = [UIColor lightGrayColor];
+        self.horizontalSeparator.backgroundColor = [UIColor colorWithRed:196.0/255 green:196.0/255 blue:201.0/255 alpha:1.0];
+        self.verticalSeparator.backgroundColor = [UIColor colorWithRed:196.0/255 green:196.0/255 blue:201.0/255 alpha:1.0];
     }
     
     // Make the message fits to it bounds
@@ -601,7 +606,6 @@
         self.messageLabel.frame = myFrame;
     }
 
-    
     // Add subviews
     if ( ! hasContentView) {
         [self addSubview:self.titleLabel];
@@ -610,8 +614,8 @@
 
     [self addSubview:self.cancelButton];
     [self addSubview:self.otherButton];
-    [self addSubview:self.horizontalSeperator];
-    [self addSubview:self.verticalSeperator];
+    [self addSubview:self.horizontalSeparator];
+    [self addSubview:self.verticalSeparator];
 }
 
 

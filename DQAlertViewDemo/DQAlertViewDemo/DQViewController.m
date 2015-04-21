@@ -69,7 +69,7 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
     switch (indexPath.row + 1) {
         case 1:
         {
-            DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:sampleMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK"];
+            DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:sampleMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
             
             [alertView show];
         }
@@ -78,9 +78,7 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
         case 2:
         {
             DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:longSampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
-            
-            alertView.messageBottomPadding = -20;
-            
+                        
             alertView.shouldDimBackgroundWhenShowInView = YES;
             alertView.shouldDismissOnOutsideTapped = YES;
             [alertView show];
@@ -108,7 +106,7 @@ NSString * longSampleMessage = @"Yesterday, all my troubles seemed so far away. 
             DQAlertView * alertView = [[DQAlertView alloc] initWithTitle:sampleTitle message:sampleMessage cancelButtonTitle:@"Cancel" otherButtonTitle:@"OK"];
             
             alertView.backgroundColor = [UIColor orangeColor];
-            alertView.seperatorColor = [UIColor blackColor];
+            alertView.separatorColor = [UIColor blackColor];
             
             [alertView show];
         }
