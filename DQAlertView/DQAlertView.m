@@ -41,8 +41,6 @@
 @property (nonatomic, strong) UIColor *originCancelButtonColor;
 @property (nonatomic, strong) UIColor *originOtherButtonColor;
 
-@property (nonatomic, strong) UIWindow *originalWindow;
-
 @end
 
 @implementation DQAlertView
@@ -153,31 +151,18 @@
 //    [self calculateFrame];
 //    [self setupViews];
     
-    self.originalWindow = [[UIApplication sharedApplication] keyWindow];
-    UIWindow *alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    alertWindow.windowLevel = UIWindowLevelAlert;
-    UIViewController *alertRootViewController = [[UIViewController alloc] init];
-    alertWindow.rootViewController = alertRootViewController;
-    [alertWindow makeKeyAndVisible];
+    UIView *window = [[[UIApplication sharedApplication] delegate] window];
     
     if (self.shouldDimBackgroundWhenShowInWindow) {
-        alertWindow.backgroundColor = [UIColor colorWithWhite:0 alpha:self.dimAlpha];
+        self.blackOpaqueView = [[UIView alloc] initWithFrame:window.bounds];
+        self.blackOpaqueView.backgroundColor = [UIColor colorWithWhite:0 alpha:self.dimAlpha];
 
         UITapGestureRecognizer *outsideTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(outsideTap:)];
-        [alertWindow addGestureRecognizer:outsideTapGesture];
+        [self.blackOpaqueView addGestureRecognizer:outsideTapGesture];
+        [window addSubview:self.blackOpaqueView];
     }
     
-    [self calculateFrame];
-    [self setupViews];
-    
-    if ( ! hasModifiedFrame) {
-        CGRect modifiedWindowFrame = [self currentScreenBoundsDependOnOrientation];
-        self.frame = CGRectMake((CGRectGetWidth(modifiedWindowFrame) - self.frame.size.width )/2, (CGRectGetHeight(modifiedWindowFrame) - self.frame.size.height) /2, self.frame.size.width, self.frame.size.height);
-    }
-    
-    [self willAppearAlertView];
-    
-    [self addThisViewToView:alertWindow.rootViewController.view];
+    [self showInView:window];
 }
 
 - (void)outsideTap:(UITapGestureRecognizer *)recognizer
@@ -290,7 +275,7 @@
         [UIView animateWithDuration:timeDisappear delay:timeDelay options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.alpha = .0;
         } completion:^(BOOL finished){
-            [self removeSelfAndAlertWindow];
+            [self removeFromSuperview];
         }];
     }
     else if (self.disappearAnimationType == DQAlertViewAnimationTypeZoomOut )
@@ -300,7 +285,7 @@
             self.transform = CGAffineTransformMakeScale(0.01, 0.01);
             
         } completion:^(BOOL finished){
-            [self removeSelfAndAlertWindow];
+            [self removeFromSuperview];
         }];
     }
     else if (self.disappearAnimationType == DQAlertViewAnimationTypeFaceOut)
@@ -310,7 +295,7 @@
             self.alpha = 0;
             
         } completion:^(BOOL finished){
-            [self removeSelfAndAlertWindow];
+            [self removeFromSuperview];
         }];
     }
     else if (self.disappearAnimationType == DQAlertViewAnimationTypeFlyTop)
@@ -319,7 +304,7 @@
             self.frame = CGRectMake(self.frame.origin.x, - self.frame.size.height - 10, self.frame.size.width, self.frame.size.height);
             
         } completion:^(BOOL finished){
-            [self removeSelfAndAlertWindow];
+            [self removeFromSuperview];
         }];
     }
     else if (self.disappearAnimationType == DQAlertViewAnimationTypeFlyBottom)
@@ -328,7 +313,7 @@
             self.frame = CGRectMake( self.frame.origin.x, self.superview.frame.size.height + 10, self.frame.size.width, self.frame.size.height);
             
         } completion:^(BOOL finished){
-            [self removeSelfAndAlertWindow];
+            [self removeFromSuperview];
         }];
     }
     else if (self.disappearAnimationType == DQAlertViewAnimationTypeFlyLeft)
@@ -337,7 +322,7 @@
             self.frame = CGRectMake( - self.frame.size.width - 10, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
             
         } completion:^(BOOL finished){
-            [self removeSelfAndAlertWindow];
+            [self removeFromSuperview];
         }];
     }
     else if (self.disappearAnimationType == DQAlertViewAnimationTypeFlyRight)
@@ -346,12 +331,12 @@
             self.frame = CGRectMake(self.superview.frame.size.width + 10, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
             
         } completion:^(BOOL finished){
-            [self removeSelfAndAlertWindow];
+            [self removeFromSuperview];
         }];
     }
     else if (self.disappearAnimationType == DQAlertViewAnimationTypeNone)
     {
-        [self removeSelfAndAlertWindow];
+        [self removeFromSuperview];
     }
     
 
@@ -362,11 +347,6 @@
             [self.blackOpaqueView removeFromSuperview];
         }];
     }
-}
-
-- (void)removeSelfAndAlertWindow {
-    [self removeFromSuperview];
-    [self.originalWindow makeKeyAndVisible];
 }
 
 #pragma mark - Setup the alert view
@@ -746,30 +726,5 @@
     // Drawing code
 }
 */
-
-# pragma mark - Modify frame for iOS 7
-
-
-- (CGRect)currentScreenBoundsDependOnOrientation {
-    CGRect windowFrame = [UIScreen mainScreen].bounds ;
-    
-    if ([[[UIDevice currentDevice] systemVersion] compare:@"8.0" options:NSNumericSearch] != NSOrderedAscending) {
-        return windowFrame;
-    }
-    
-    CGFloat width = CGRectGetWidth(windowFrame)  ;
-    CGFloat height = CGRectGetHeight(windowFrame) ;
-    UIInterfaceOrientation interfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-    
-    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)){
-        windowFrame.size = CGSizeMake(width, height);
-    }
-    else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)){
-        windowFrame.size = CGSizeMake(height, width);
-    }
-    
-    return windowFrame ;
-}
-
 
 @end
