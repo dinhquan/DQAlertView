@@ -7,6 +7,11 @@
 
 #import "DQAlertView.h"
 
+#define IS_IOS_LOWER_THAN_7 ( [ [ [ UIDevice currentDevice ] systemVersion ] floatValue ] < 7.0 )
+#define IS_IOS_7_OR_HIGHER ( [ [ [ UIDevice currentDevice ] systemVersion ] floatValue ] >= 7.0 )
+#define IS_IOS_LOWER_THAN_8 ( [ [ [ UIDevice currentDevice ] systemVersion ] floatValue ] < 8.0 )
+#define IS_IOS_8_OR_HIGHER ( [ [ [ UIDevice currentDevice ] systemVersion ] floatValue ] >= 8.0 )
+
 #define DEFAULT_ALERT_WIDTH 270
 #define DEFAULT_ALERT_HEIGHT 144
 
@@ -151,7 +156,13 @@
 //    [self calculateFrame];
 //    [self setupViews];
     
+    UIView *superView;
     UIView *window = [[[UIApplication sharedApplication] delegate] window];
+    if (IS_IOS_8_OR_HIGHER) {
+        superView = window;
+    } else {
+        superView = [[window subviews] lastObject];
+    }
     
     if (self.shouldDimBackgroundWhenShowInWindow) {
         self.blackOpaqueView = [[UIView alloc] initWithFrame:window.bounds];
@@ -159,10 +170,10 @@
 
         UITapGestureRecognizer *outsideTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(outsideTap:)];
         [self.blackOpaqueView addGestureRecognizer:outsideTapGesture];
-        [window addSubview:self.blackOpaqueView];
+        [superView addSubview:self.blackOpaqueView];
     }
     
-    [self showInView:window];
+    [self showInView:superView];
 }
 
 - (void)outsideTap:(UITapGestureRecognizer *)recognizer
