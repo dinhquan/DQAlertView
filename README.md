@@ -1,7 +1,10 @@
 DQAlertView
 ===========
+> Programming in Swift? Try [SwiftAlertView](https://github.com/dinhquan/SwiftAlertView) for a more conventional set of APIs.
+
 
 The best iOS customizable AlertView.
+
 
 DQAlertView is the best alternative for UIKit's UIAlertView.
 With DQAlertView, you can easily make your desired Alert View in some lines of code.
