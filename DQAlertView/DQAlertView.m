@@ -680,15 +680,19 @@
         
     }
 
-    [self dismiss];
+  
     
-    if (self.cancelButtonAction) {
+    if (self.cancelButtonAction || [self.delegate respondsToSelector:@selector(cancelButtonClickedOnAlertView:)]) {
+      if (self.cancelButtonAction) {
         self.cancelButtonAction();
+      }else{
+        [self.delegate cancelButtonClickedOnAlertView:self];
+      }
+    }else{
+        [self dismiss];
     }
     
-    if ([self.delegate respondsToSelector:@selector(cancelButtonClickedOnAlertView:)]) {
-        [self.delegate cancelButtonClickedOnAlertView:self];
-    }
+  
 }
 
 - (void)otherButtonClicked:(id)sender
