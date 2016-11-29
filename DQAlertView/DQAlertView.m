@@ -542,6 +542,9 @@
     // Setup Message Label
     self.messageLabel.numberOfLines = 0;
     self.messageLabel.font = [UIFont systemFontOfSize:13];
+    if(self.title == nil){
+      self.messageLabel.font = self.titleLabel.font;
+    }
     self.messageLabel.text = self.message;
     self.messageLabel.textAlignment = NSTextAlignmentCenter;
     self.messageLabel.textColor = [UIColor blackColor];
