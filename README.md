@@ -9,9 +9,8 @@ The best iOS customizable AlertView.
 DQAlertView is the best alternative for UIKit's UIAlertView.
 With DQAlertView, you can easily make your desired Alert View in some lines of code.
 
-![](https://dl.dropboxusercontent.com/u/61390634/DQAlertViewPhoto/sm1.png)      ..![](https://dl.dropboxusercontent.com/u/61390634/DQAlertViewPhoto/sm2.png)
-..![](https://dl.dropboxusercontent.com/u/61390634/DQAlertViewPhoto/sm3.png)
-..![](https://dl.dropboxusercontent.com/u/61390634/DQAlertViewPhoto/sm4.png)
+![](https://raw.githubusercontent.com/dinhquan/DQAlertView/master/DQAlertViewDemo/DQAlertViewDemo/Resources/e2.png)
+![](https://raw.githubusercontent.com/dinhquan/DQAlertView/master/DQAlertViewDemo/DQAlertViewDemo/Resources/e3.png)     ![](https://raw.githubusercontent.com/dinhquan/DQAlertView/master/DQAlertViewDemo/DQAlertViewDemo/Resources/e4.png)
 
 ## Getting started
 
