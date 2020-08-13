@@ -22,8 +22,8 @@
     CGRect cancelButtonFrame;
     CGRect otherButtonFrame;
     
-    CGRect verticalSeperatorFrame;
-    CGRect horizontalSeperatorFrame;
+    CGRect verticalSeparatorFrame;
+    CGRect horizontalSeparatorFrame;
     
     BOOL hasModifiedFrame;
     BOOL hasContentView;
@@ -459,15 +459,15 @@
     
     
     if ( self.hideSeperator || ! hasButton ) {
-        verticalSeperatorFrame = CGRectZero;
-        horizontalSeperatorFrame = CGRectZero;
+        verticalSeparatorFrame = CGRectZero;
+        horizontalSeparatorFrame = CGRectZero;
     } else {
-        verticalSeperatorFrame = CGRectMake(self.width / 2,
+        verticalSeparatorFrame = CGRectMake(self.width / 2,
                                             self.height - self.buttonHeight,
                                             0.5,
                                             self.buttonHeight);
         
-        horizontalSeperatorFrame = CGRectMake(0,
+        horizontalSeparatorFrame = CGRectMake(0,
                                               self.height - self.buttonHeight,
                                               self.width,
                                               0.5);
@@ -476,7 +476,7 @@
     if ( ! self.cancelButtonTitle ) {
         cancelButtonFrame = CGRectZero;
     } else if ( ! self.otherButtonTitle ) {
-        verticalSeperatorFrame = CGRectZero;
+        verticalSeparatorFrame = CGRectZero;
         cancelButtonFrame = CGRectMake(0,
                                        self.height - self.buttonHeight,
                                        self.width,
@@ -496,7 +496,7 @@
     if ( ! self.otherButtonTitle ) {
         otherButtonFrame = CGRectZero;
     } else if ( ! self.cancelButtonTitle ) {
-        verticalSeperatorFrame = CGRectZero;
+        verticalSeparatorFrame = CGRectZero;
         otherButtonFrame = CGRectMake(0,
                                       self.height - self.buttonHeight,
                                       self.width,
@@ -565,7 +565,7 @@
 //    [self.otherButton addTarget:self action:@selector(otherButtonTouchBegan:) forControlEvents:UIControlEventTouchDragInside];
 //    [self.otherButton addTarget:self action:@selector(otherButtonTouchEnded:) forControlEvents:UIControlEventTouchDragOutside];
     
-    //Set up Seperator
+    //Set up Separator
     self.horizontalSeparator = [[UIView alloc] initWithFrame:CGRectZero];
     self.verticalSeparator = [[UIView alloc] initWithFrame:CGRectZero];
 }
@@ -598,8 +598,8 @@
     self.cancelButton.frame = cancelButtonFrame;
     self.otherButton.frame = otherButtonFrame;
     
-    self.horizontalSeparator.frame = horizontalSeperatorFrame;
-    self.verticalSeparator.frame = verticalSeperatorFrame;
+    self.horizontalSeparator.frame = horizontalSeparatorFrame;
+    self.verticalSeparator.frame = verticalSeparatorFrame;
     
     if (self.separatorColor) {
         self.horizontalSeparator.backgroundColor = self.separatorColor;

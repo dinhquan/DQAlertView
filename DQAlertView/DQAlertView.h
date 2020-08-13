@@ -121,7 +121,7 @@ typedef void (^DQAlertViewBlock)(void);
 @property (nonatomic, assign) CGFloat dimAlpha; //Default is same as UIAlertView
 
 // Delegate
-@property (nonatomic, strong) id<DQAlertViewDelegate> delegate;
+@property (nonatomic, weak) id<DQAlertViewDelegate> delegate;
 
 // Handle the button touching event
 @property (readwrite, copy) DQAlertViewBlock cancelButtonAction;

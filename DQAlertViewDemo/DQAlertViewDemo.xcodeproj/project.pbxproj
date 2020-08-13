@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1427970F24E506730080C0F2 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1427970E24E506730080C0F2 /* Launch Screen.storyboard */; };
 		F4A7FD461896BCF600072DF4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A7FD451896BCF600072DF4 /* Foundation.framework */; };
 		F4A7FD481896BCF600072DF4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A7FD471896BCF600072DF4 /* CoreGraphics.framework */; };
 		F4A7FD4A1896BCF600072DF4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A7FD491896BCF600072DF4 /* UIKit.framework */; };
@@ -22,8 +23,6 @@
 		F4A7FD6F1896BCF600072DF4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4A7FD6D1896BCF600072DF4 /* InfoPlist.strings */; };
 		F4A7FD711896BCF600072DF4 /* DQAlertViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7FD701896BCF600072DF4 /* DQAlertViewDemoTests.m */; };
 		F4A7FD7D1896C2D200072DF4 /* DQAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A7FD7C1896C2D200072DF4 /* DQAlertView.m */; };
-		F4A7FD801896C40600072DF4 /* alert-box.png in Resources */ = {isa = PBXBuildFile; fileRef = F4A7FD7E1896C40600072DF4 /* alert-box.png */; };
-		F4A7FD811896C40600072DF4 /* alert-box@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4A7FD7F1896C40600072DF4 /* alert-box@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1427970E24E506730080C0F2 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		F4A7FD421896BCF600072DF4 /* DQAlertViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DQAlertViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A7FD451896BCF600072DF4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F4A7FD471896BCF600072DF4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -58,8 +58,6 @@
 		F4A7FD701896BCF600072DF4 /* DQAlertViewDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DQAlertViewDemoTests.m; sourceTree = "<group>"; };
 		F4A7FD7B1896C2D200072DF4 /* DQAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DQAlertView.h; sourceTree = "<group>"; };
 		F4A7FD7C1896C2D200072DF4 /* DQAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DQAlertView.m; sourceTree = "<group>"; };
-		F4A7FD7E1896C40600072DF4 /* alert-box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alert-box.png"; sourceTree = "<group>"; };
-		F4A7FD7F1896C40600072DF4 /* alert-box@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alert-box@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,8 +123,6 @@
 				F4A7FD571896BCF600072DF4 /* Main.storyboard */,
 				F4A7FD5A1896BCF600072DF4 /* DQViewController.h */,
 				F4A7FD5B1896BCF600072DF4 /* DQViewController.m */,
-				F4A7FD7E1896C40600072DF4 /* alert-box.png */,
-				F4A7FD7F1896C40600072DF4 /* alert-box@2x.png */,
 				F4A7FD5D1896BCF600072DF4 /* Images.xcassets */,
 				F4A7FD4C1896BCF600072DF4 /* Supporting Files */,
 			);
@@ -140,6 +136,7 @@
 				F4A7FD4E1896BCF600072DF4 /* InfoPlist.strings */,
 				F4A7FD511896BCF600072DF4 /* main.m */,
 				F4A7FD531896BCF600072DF4 /* DQAlertViewDemo-Prefix.pch */,
+				1427970E24E506730080C0F2 /* Launch Screen.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -230,6 +227,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -249,10 +247,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1427970F24E506730080C0F2 /* Launch Screen.storyboard in Resources */,
 				F4A7FD5E1896BCF600072DF4 /* Images.xcassets in Resources */,
 				F4A7FD501896BCF600072DF4 /* InfoPlist.strings in Resources */,
-				F4A7FD801896C40600072DF4 /* alert-box.png in Resources */,
-				F4A7FD811896C40600072DF4 /* alert-box@2x.png in Resources */,
 				F4A7FD591896BCF600072DF4 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,11 +398,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DQAlertViewDemo/DQAlertViewDemo-Prefix.pch";
 				INFOPLIST_FILE = "DQAlertViewDemo/DQAlertViewDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dinhquan.DQAlertViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -415,11 +413,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DQAlertViewDemo/DQAlertViewDemo-Prefix.pch";
 				INFOPLIST_FILE = "DQAlertViewDemo/DQAlertViewDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dinhquan.DQAlertViewDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
