@@ -69,9 +69,8 @@ typedef void (^DQAlertViewBlock)(void);
 @property (nonatomic, strong) UILabel * messageLabel; // Default is in gray color and system font 14
 
 
-// Set the height of title and button; and the padding of elements. The message label height is calculated based on its text and font.
+// Set the height of the buttons; and the padding of elements. The message label height is calculated based on its text and font.
 @property (nonatomic, assign) CGFloat buttonHeight; // Default is 44
-@property (nonatomic, assign) CGFloat titleHeight; // Default is 34
 
 @property (nonatomic, assign) CGFloat titleTopPadding; //Default is 14
 @property (nonatomic, assign) CGFloat titleBottomPadding; // Default is 2

@@ -14,6 +14,7 @@
 
 #define DEFAULT_ALERT_WIDTH 270
 #define DEFAULT_ALERT_HEIGHT 144
+#define DEFAULT_TITLE_HEIGHT 34
 
 @interface DQAlertView ()
 {
@@ -39,6 +40,8 @@
 @property (nonatomic, strong) NSString * message;
 @property (nonatomic, strong) NSString * cancelButtonTitle;
 @property (nonatomic, strong) NSString * otherButtonTitle;
+
+@property (nonatomic, assign) CGFloat titleHeight; // Default is 34
 
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, assign) CGFloat height;
@@ -107,7 +110,7 @@
         
         self.buttonHeight = 44;
         self.titleTopPadding = 14;
-        self.titleHeight = 34;
+        self.titleHeight = DEFAULT_TITLE_HEIGHT;
         self.titleBottomPadding = 2;
         self.messageBottomPadding = 20;
         self.messageLeftRightPadding = 20;
@@ -408,18 +411,26 @@
     if ( ! hasContentView ) {
         if ( ! hasModifiedFrame )
         {
+            UIFont * titleFont = self.titleLabel.font ? self.titleLabel.font : [UIFont systemFontOfSize:14];
             UIFont * messageFont = self.messageLabel.font ? self.messageLabel.font : [UIFont systemFontOfSize:14];
             //Calculate label size
             //Calculate the expected size based on the font and linebreak mode of your label
             // FLT_MAX here simply means no constraint in height
             CGSize maximumLabelSize = CGSizeMake(self.width - self.messageLeftRightPadding * 2, FLT_MAX);
             //        CGSize expectedLabelSize = [self.message sizeWithFont:messageFont constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
+
+            CGRect titleRect = [self.title boundingRectWithSize:maximumLabelSize
+                                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                                      attributes:@{NSFontAttributeName:titleFont}
+                                                         context:nil];
             
             CGRect textRect = [self.message boundingRectWithSize:maximumLabelSize
                                                          options:NSStringDrawingUsesLineFragmentOrigin
                                                       attributes:@{NSFontAttributeName:messageFont}
                                                          context:nil];
-            
+
+            CGFloat titleHeight = titleRect.size.height + 16;
+            self.titleHeight = titleHeight > DEFAULT_TITLE_HEIGHT ? titleHeight : DEFAULT_TITLE_HEIGHT;
             CGFloat messageHeight = textRect.size.height;
             
             CGFloat newHeight = messageHeight + self.titleHeight + self.buttonHeight + self.titleTopPadding + self.titleBottomPadding + self.messageBottomPadding;
