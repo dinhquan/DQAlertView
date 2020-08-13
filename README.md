@@ -18,7 +18,7 @@ With DQAlertView, you can easily make your desired Alert View in some lines of c
 #### Using CocoaPods
 Just add the following line in to your pod file:
 ```
-pod 'DQAlertView', '~> 1.2.1'
+pod 'DQAlertView', '~> 1.3.0'
 ```
 #### Manually
 Drag and drop the subfolder named ```DQAlertView``` in your project and you are done.
